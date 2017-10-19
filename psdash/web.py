@@ -107,8 +107,12 @@ def access_denied(e):
 def index():
     sysinfo = current_service.get_sysinfo()
 
-    netifs = current_service.get_network_interfaces().values()
-    netifs.sort(key=lambda x: x.get('bytes_sent'), reverse=True)
+    net_ifs = current_service.get_network_interfaces().values()
+    #netifs.sort(key=lambda x: x.get('bytes_sent'), reverse=True)
+    print(type(net_ifs), net_ifs)
+    for i in net_ifs:
+        print(i.get('bytes_sent'),type(i))
+    netifs = sorted(net_ifs, key=lambda x: x.get('bytes_send'), reverse=True)
 
     data = {
         'load_avg': sysinfo['load_avg'],
