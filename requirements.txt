@@ -1,0 +1,15 @@
+click==6.7
+Flask==0.12.2
+future==0.16.0
+gevent==1.2.2
+glob2==0.6
+greenlet==0.4.12
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+msgpack-python==0.4.8
+netifaces==0.10.6
+psutil==5.4.0
+pyzmq==16.0.2
+Werkzeug==0.12.2
+zerorpc==0.6.1
