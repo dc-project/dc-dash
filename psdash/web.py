@@ -41,8 +41,8 @@ def inject_header_data():
     uptime = timedelta(seconds=sysinfo['uptime'])
     uptime = str(uptime).split('.')[0]
     return {
-        'os': sysinfo['os'].decode('utf-8'),
-        'hostname': sysinfo['hostname'].decode('utf-8'),
+        'os': sysinfo['os'],
+        'hostname': sysinfo['hostname'],
         'uptime': uptime
     }
 
@@ -107,12 +107,8 @@ def access_denied(e):
 def index():
     sysinfo = current_service.get_sysinfo()
 
-    net_ifs = current_service.get_network_interfaces().values()
+    netifs = current_service.get_network_interfaces().values()
     #netifs.sort(key=lambda x: x.get('bytes_sent'), reverse=True)
-    print(type(net_ifs), net_ifs)
-    for i in net_ifs:
-        print(i.get('bytes_sent'),type(i))
-    netifs = sorted(net_ifs, key=lambda x: x.get('bytes_send'), reverse=True)
 
     data = {
         'load_avg': sysinfo['load_avg'],
@@ -217,7 +213,10 @@ def process(pid, section):
 @webapp.route('/network')
 def view_networks():
     netifs = current_service.get_network_interfaces().values()
-    netifs.sort(key=lambda x: x.get('bytes_sent'), reverse=True)
+    #print(netifs.items)
+    #print(netifs)
+    #sorted(netifs.items(), key=netifs.get('bytes_sent'), reverse=False)
+    #print(netifs)
 
     # {'key', 'default_value'}
     # An empty string means that no filtering will take place on that key
@@ -228,7 +227,7 @@ def view_networks():
         'state': 'LISTEN'
     }
 
-    form_values = dict((k, request.args.get(k, default_val)) for k, default_val in form_keys.iteritems())
+    form_values = dict((k, request.args.get(k, default_val)) for k, default_val in form_keys.items())
 
     for k in ('local_addr', 'remote_addr'):
         val = request.args.get(k, '')
@@ -267,7 +266,7 @@ def view_networks():
 def view_disks():
     disks = current_service.get_disks(all_partitions=True)
     io_counters = current_service.get_disks_counters().items()
-    io_counters.sort(key=lambda x: x[1]['read_count'], reverse=True)
+    sorted(io_counters, key=lambda x: x[1]['read_count'], reverse=True)
     return render_template(
         'disks.html',
         page='disks',
@@ -280,7 +279,7 @@ def view_disks():
 @webapp.route('/logs')
 def view_logs():
     available_logs = current_service.get_logs()
-    available_logs.sort(cmp=lambda x1, x2: locale.strcoll(x1['path'], x2['path']))
+    #sorted(available_logs ,cmp=lambda x1, x2: locale.strcoll(x1['path'], x2['path']))
 
     return render_template(
         'logs.html',
