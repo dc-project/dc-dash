@@ -146,7 +146,8 @@ class PsDashRunner(object):
     def _create_app(self, config=None):
         app = Flask(__name__)
         app.psdash = self
-        app.config.from_envvar('PSDASH_CONFIG', silent=True)
+        #app.config.from_envvar('PSDASH_CONFIG', silent=True)
+        app.config.from_object('config')
 
         if config and isinstance(config, dict):
             app.config.update(config)

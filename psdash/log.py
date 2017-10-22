@@ -151,7 +151,7 @@ class Logs(object):
     def add_available(self, filename):
         # quick verification that it exists and can be read
         try:
-            filename = filename.decode('utf-8')
+            filename = filename
             f = open(filename)
             f.close()
         except IOError as e:
@@ -200,7 +200,7 @@ class Logs(object):
         return i
 
     def clear(self):
-        for r in self.readers.itervalues():
+        for r in self.readers.values():
             r.close()
         self.readers = {}
 

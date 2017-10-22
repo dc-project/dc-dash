@@ -339,7 +339,7 @@ class LocalService(object):
             try:
                 stat = os.stat(log.filename)
                 available_logs.append({
-                    'path': log.filename.encode("utf-8"),
+                    'path': log.filename,
                     'size': stat.st_size,
                     'atime': stat.st_atime,
                     'mtime': stat.st_mtime

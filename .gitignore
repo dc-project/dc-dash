@@ -8,5 +8,6 @@ tags
 build/
 dist/
 *.vim
-*.sh
+*.tgz
+requirements_release.txt
 TODO.rst
